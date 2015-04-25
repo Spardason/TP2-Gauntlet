@@ -26,6 +26,8 @@ public:
 	// CTOR with parameter, in this case, the map created with int
 	TileManager(int map[MAP_HEIGHT][MAP_WIDTH]);
 	~TileManager();
+
+	Map *GetMap() {return mapPng;}
 	
 	// Function that check the postion in case is a tile or not, and if yes, return the tile
 	Tile *CheckForTile(const point<int> posToCheck);
@@ -37,6 +39,7 @@ public:
 	void MoveTiles(Vector2D& direction);
 
 	void Update();
+	void Draw();
 
 private:
 	// Map background

@@ -49,8 +49,8 @@ void Tile::MoveTile(Vector2D& direction)
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
 	// Opération time Base
-	currentX += SPEED * direction.x * dt;
-	currentY += SPEED * direction.y * dt;
+	currentX -= SPEED * direction.x * dt;
+	currentY -= SPEED * direction.y * dt;
 	SetPosition(currentX, currentY);
 }
 

@@ -27,6 +27,16 @@ TileManager::~TileManager()
 
 }
 
+void TileManager::Update()
+{
+
+}
+
+void TileManager::Draw()
+{
+
+}
+
 // Function to create the map of tiles
 void TileManager::CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH])
 {
@@ -106,11 +116,6 @@ void TileManager::MoveTiles(Vector2D& direction)
 		(*it)->MoveTile(direction);
 	}
 	mapPng->MoveMap(direction);
-}
-
-void TileManager::Update()
-{
-	
 }
 
 // Function that look for tiles  at the next position that the player will go and return it if there's one

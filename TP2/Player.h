@@ -30,12 +30,18 @@ public:
 	// Function that move the background
 	void MoveMap(Vector2D& direction);
 
+	void MovePlayer();
+
 private:
 	// Pool of bullet....only one yeah...but I had to, I don't want to recreate a bullet each time I shoot
     //Pool<Bullet> *bulletPool;
 
 	// player speed
 	const int SPEED;
+	const int MAX_WIDTH;
+	const int MAX_HEIGHT;
+
+	SDL_Rect camera;
 
 	// Player postion
 	int currentX, currentY;

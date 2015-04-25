@@ -19,8 +19,9 @@ void Map::MoveMap(Vector2D& direction)
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
-	currentX += SPEED * direction.x * dt;
-	currentY += SPEED * direction.y * dt;
+	// Opération time Base
+	currentX -= SPEED * direction.x * dt;
+	currentY -= SPEED * direction.y * dt;
 	SetPosition(currentX, currentY);
 }
 
