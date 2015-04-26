@@ -12,6 +12,7 @@ public:
 	~Map();
 
 	void Update();
+	void Start();
 
 	// Function to move the map accordingly to the player movement
 	void MoveMap(Vector2D& direction);

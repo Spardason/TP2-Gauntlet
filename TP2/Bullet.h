@@ -14,6 +14,7 @@ public:
 	~Bullet();
 
 	void Update();
+	void Start();
 
 	void Init(float currentX, float currentY, Vector2D &direction);
 	void OnClear();

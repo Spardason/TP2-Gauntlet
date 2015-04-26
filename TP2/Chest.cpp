@@ -12,3 +12,8 @@ Chest::~Chest()
 {
 
 }
+
+void Chest::Start()
+{
+
+}

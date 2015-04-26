@@ -10,6 +10,8 @@ public:
 	Chest();
 	~Chest();
 
+	void Start();
+
 private:
 	// Chest Position
 	int currentX, currentY;

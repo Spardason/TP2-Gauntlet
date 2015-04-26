@@ -32,3 +32,8 @@ void Map::Update()
 {
 	
 }
+
+void Map::Start()
+{
+
+}

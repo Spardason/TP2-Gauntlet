@@ -11,3 +11,8 @@ MusicTheme::~MusicTheme()
 {
 
 }
+
+void MusicTheme::Start()
+{
+
+}
