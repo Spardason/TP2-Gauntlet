@@ -17,6 +17,7 @@ public:
 	~Tile();
 
 	void Update();
+	void Start();
 
 	// Tile size getters
 	int GetWidth() const { return tileWidth; }

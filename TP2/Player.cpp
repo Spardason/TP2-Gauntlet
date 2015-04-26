@@ -62,7 +62,7 @@ void Player::Start()
 }
 
 // Function to get the next position 
-point<float> Player::GetNextPos(Vector2D& direction)
+point<float> Player::GetNextPos(Vector2D &direction)
 {
 	point<float> p;
 

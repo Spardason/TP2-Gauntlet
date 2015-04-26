@@ -26,11 +26,16 @@ void Bullet::Update()
 
 }
 
+void Bullet::Start()
+{
+
+}
+
 void Bullet::Init(float currentX, float currentY, Vector2D &direction)
 {
-	if (direction.x == 0, direction.y == 0)
+	if (direction.x == 0 && direction.y == 0)
 	{
-		direction.x = 1;
+		direction.y = 1;
 	}
 
 	isVisible = true;

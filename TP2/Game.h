@@ -16,6 +16,7 @@
 #include "Pool.h"
 #include "Bullet.h"
 #include "MusicTheme.h"
+#include "SplashScreen.h"
 
 class Game :
 	public Component
@@ -24,7 +25,14 @@ public:
 	Game();
 	~Game();
 
+	void Init();
+	void Start();
+
 private:
+	bool gameOver;
+
+	Enemy *enemyGhost;
+	SplashScreen *splashScreen;
 	MusicTheme *theme;
 	TileManager *manager;
 	Player *player;

@@ -58,3 +58,8 @@ void Tile::Update()
 {
 	
 }
+
+void Tile::Start()
+{
+
+}
