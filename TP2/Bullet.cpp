@@ -16,14 +16,19 @@ Bullet::~Bullet()
 
 }
 
+void Bullet::OnClear()
+{
+	isVisible = false;
+}
+
 void Bullet::Update()
 {
-	MoveBullet();
+
 }
 
 void Bullet::Init(float currentX, float currentY, Vector2D &direction)
 {
-	if (direction.x == 0)
+	if (direction.x == 0, direction.y == 0)
 	{
 		direction.x = 1;
 	}

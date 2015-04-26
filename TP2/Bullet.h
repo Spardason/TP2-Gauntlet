@@ -16,6 +16,7 @@ public:
 	void Update();
 
 	void Init(float currentX, float currentY, Vector2D &direction);
+	void OnClear();
 	void MoveBullet();
 
 	// Function to get the next position 

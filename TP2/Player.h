@@ -34,6 +34,8 @@ public:
 
 	void MovePlayer(Vector2D &direction);
 
+	void UpdateAnim(Vector2D &direction);
+
 private:
 	// Pool of bullet....only one yeah...but I had to, I don't want to recreate a bullet each time I shoot
 	Pool<Bullet> *bulletPool;
@@ -41,6 +43,7 @@ private:
 	// player speed
 	const int SPEED;
 
+	// Booleans for the bullet
 	bool bulletCanMove;
 	bool bulletIsSpawned;
 	bool bulletIsMoving;
@@ -75,8 +78,15 @@ private:
 	const int IDLE_NB_FRAME() { return 1; }
 
 	// Set animation position on sprite sheets
-	const point<int> FRAME_SIZE() { return{ 16, 16 }; };
-	const point<int> WALK_DOWN_START_SRC() { return{ 0, 0 }; };
+	const point<int> FRAME_SIZE()					{ return{ 16, 16 }; };
+	const point<int> WALK_DOWN_START_SRC()			{ return{ 0, 0 }; };
+	const point<int> WALK_DOWN_LEFT_START_SRC()		{ return{ 0, 16 }; };
+	const point<int> WALK_RIGHT_START_SRC()			{ return{ 0, 32 }; };
+	const point<int> WALK_DOWN_RIGHT_START_SRC()	{ return{ 0, 48 }; };
+	const point<int> WALK_LEFT_START_SRC()			{ return{ 0, 64 }; };
+	const point<int> WALK_UP_RIGHT_START_SRC()		{ return{ 0, 80 }; };
+	const point<int> WALK_UP_START_SRC()			{ return{ 0, 96 }; };
+	const point<int> WALK_UP_LEFT_START_SRC()		{ return{ 0, 112 }; };
 
 	
 };

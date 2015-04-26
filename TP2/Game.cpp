@@ -21,7 +21,7 @@ Game::Game()
 	Fonts->LoadFont(Font::ID::Dialog, "dialog.ttf", 23);
 
 	// Load all the Sounds
-	Musics->LoadMusic(Music::ID::Theme, "05-gauntlet.mp3");
+	Musics->LoadMusic(Music::ID::Theme, "05gauntlet.mp3");
 
 	// Create all the map consts
 	const int MAP_WIDTH = 33;
@@ -58,10 +58,9 @@ Game::Game()
 										   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 11, 0, 1, 0, 1, 3, 3, 1, 0, 5, 1, 0, 0, 0, 0, 0, 0, 1 },
 										   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
-	// Play the music
-	AudioSys->PlayMusic(Musics->Get(Music::ID::Theme));
 
 	// Create all game objects
+	theme = new MusicTheme();
 	mapSprite = new Map();
 	manager = new TileManager(tileMap, mapSprite);
 	player = new Player(manager);
@@ -70,6 +69,8 @@ Game::Game()
 
 Game::~Game()
 {
+	delete theme;
+	delete mapSprite;
 	delete manager;
 	delete player;
 	delete score;

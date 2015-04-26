@@ -93,18 +93,39 @@ void Player::changeState(state newState)
 			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_UP:
+			this->SetSrcPos(WALK_UP_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_RIGTH:
+			this->SetSrcPos(WALK_RIGHT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_LEFT:
+			this->SetSrcPos(WALK_LEFT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_DR:
+			this->SetSrcPos(WALK_DOWN_RIGHT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_DL:
+			this->SetSrcPos(WALK_DOWN_LEFT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_UL:
+			this->SetSrcPos(WALK_UP_LEFT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		case Player::WALK_UR:
+			this->SetSrcPos(WALK_UP_RIGHT_START_SRC());
+			this->SetNbFrame(WALK_NB_FRAME());
+			this->SetFrameRate(ANIM_DEFAULT_SPEED);
 			break;
 		default:
 			break;
@@ -197,16 +218,70 @@ void Player::MovePlayer(Vector2D &direction)
 	}
 }
 
+void Player::UpdateAnim(Vector2D &direction)
+{
+	if (direction.x == 0 && direction.y == 0)
+	{
+		this->changeState(IDLE);
+	}
+
+	if (direction.x == 1 && direction.y == 0)
+	{
+		this->changeState(WALK_RIGTH);
+	}
+
+	if (direction.x == 0 && direction.y == 1)
+	{
+		this->changeState(WALK_DOWN);
+	}
+
+	if (direction.x == -1 && direction.y == 0)
+	{
+		this->changeState(WALK_LEFT);
+	}
+
+	if (direction.x == 0 && direction.y == -1)
+	{
+		this->changeState(WALK_UP);
+	}
+
+	if (direction.x == 1 && direction.y == 1)
+	{
+		this->changeState(WALK_DR);
+	}
+							
+	if (direction.x == -1 && direction.y == 1)
+	{
+		this->changeState(WALK_DL);
+	}
+
+	if (direction.x == 1 && direction.y == -1)
+	{
+		this->changeState(WALK_UR);
+	}
+
+	if (direction.x == -1 && direction.y == -1)
+	{
+		this->changeState(WALK_UL);
+	}
+}
+
 // Update of the player (Mostly handling inputs and player actions)
 void Player::Update()
 {
-
 	Animation::Update();
 
 	Vector2D direction = Vector2D(
 		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,
 		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S) ? 1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_W) ? -1 : 0)
 		;
+	
+	UpdateAnim(direction);
+
+	if (currentState == IDLE)
+	{
+		this->Play();
+	}
 
 	MovePlayer(direction);
 
@@ -239,7 +314,7 @@ void Player::Update()
 		}
 		else
 		{
-			actualBullet->SetAlpha(0);
+			actualBullet->OnClear();
 			bulletPool->FreeInstance(actualBullet);
 			bulletIsSpawned = false;
 			bulletIsMoving = false;

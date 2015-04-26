@@ -15,7 +15,7 @@
 #include "Score.h"
 #include "Pool.h"
 #include "Bullet.h"
-#include "Audio.h"
+#include "MusicTheme.h"
 
 class Game :
 	public Component
@@ -25,6 +25,7 @@ public:
 	~Game();
 
 private:
+	MusicTheme *theme;
 	TileManager *manager;
 	Player *player;
 	Score *score;
