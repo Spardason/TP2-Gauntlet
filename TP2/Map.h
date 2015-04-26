@@ -18,7 +18,10 @@ public:
 
 private:
 	// Map position
-	int currentX, currentY;
+	float currentX, currentY;
+
+	const int MAX_WIDTH;
+	const int MAX_HEIGHT;
 
 	// Map speed
 	const int SPEED;

@@ -28,5 +28,6 @@ private:
 	TileManager *manager;
 	Player *player;
 	Score *score;
+	Map *mapSprite;
 };
 

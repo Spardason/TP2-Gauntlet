@@ -8,13 +8,16 @@ Player::Player()
 	, currentState(IDLE)
 	, score(900)
 	, keys(0)
-	, manager(nullptr) // L'erreur était ici, tu ne peut pas donner null à ça, ça pète pcq tu call des affaires dans ce constructeur la.
+	, manager(nullptr)
 	, SPEED(50)
-	, MAX_WIDTH(528)
-	, MAX_HEIGHT(464)
-	//, bulletPool(nullptr)
+	, bulletPool(nullptr)
+	, actualBullet(nullptr)
+	, bulletCanMove(false)
+	, bulletIsSpawned(false)
+	, bulletIsMoving(false)
+	
 {
-	camera = {0, 0, 256, 240};
+	bulletPool = new Pool<Bullet>(1);
 	//Start the animation on creation
 	this->Stop();
 
@@ -33,11 +36,13 @@ Player::Player(TileManager* m)
 	, keys(0)
 	, manager(m)
 	, SPEED(50)
-	, MAX_WIDTH(528)
-	, MAX_HEIGHT(464)
-	//, bulletPool(nullptr)
+	, bulletPool(nullptr)
+	, actualBullet(nullptr)
+	, bulletCanMove(false)
+	, bulletIsSpawned(false)
+	, bulletIsMoving(false)
 {
-	camera = { 0, 0, 256, 240 };
+	bulletPool = new Pool<Bullet>(1);
 	//Start the animation on creation
 	this->Stop();
 
@@ -57,9 +62,9 @@ void Player::Start()
 }
 
 // Function to get the next position 
-point<int> Player::GetNextPos(Vector2D& direction)
+point<float> Player::GetNextPos(Vector2D& direction)
 {
-	point<int> p;
+	point<float> p;
 
 	p.x = currentX + direction.x + FRAME_SIZE().x/2;
 	p.y = currentY + direction.y + FRAME_SIZE().y/2; 
@@ -158,33 +163,17 @@ bool Player::Collides(Tile *tileToCheck)
 }
 
 // Function to move the map accordingly to the player
-void Player::MoveMap(Vector2D& direction)
+void Player::MoveMap(Vector2D &direction)
 {
 	manager->MoveTiles(direction);
 }
 
-void Player::MovePlayer()
+void Player::MovePlayer(Vector2D &direction)
 {
 	bool canMove = false;
 
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
-	Vector2D direction = Vector2D(
-		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,
-		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S) ? 1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_W) ? -1 : 0)
-		;
-
-	if ((currentX < 0) || currentX + FRAME_SIZE().x > MAX_WIDTH)
-	{
-		currentX -= SPEED;
-	}
-
-	if ((currentY < 0) || currentY + FRAME_SIZE().y > MAX_HEIGHT)
-	{
-		currentY -= SPEED;
-	}
-
-	//std::cout << direction.x << ", " << direction.y << std::endl;
 	if (Normalize(&direction))
 	{
 		if ( LengthSq(&direction) != 0 )
@@ -202,154 +191,60 @@ void Player::MovePlayer()
 
 			if (canMove)
 			{
-				currentX += direction.x * SPEED * dt;
-				currentY += direction.y * SPEED * dt;
-				//std::cout << currentX << ", " << currentY << std::endl;
-				SetPosition(currentX, currentY);
+				MoveMap(direction);
 			}
 		}
-
-		//MoveMap(direction);
 	}
 }
 
 // Update of the player (Mostly handling inputs and player actions)
 void Player::Update()
-{	
+{
+
 	Animation::Update();
-	
-	MovePlayer();
 
-	//Center the camera over the player
-	camera.x = (currentX + FRAME_SIZE().x / 2) - 256 / 2;
-	camera.y = (currentY + FRAME_SIZE().y / 2) - 240 / 2;
+	Vector2D direction = Vector2D(
+		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,
+		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S) ? 1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_W) ? -1 : 0)
+		;
 
-	//Keep the camera in bounds
-	if (camera.x < 0)
+	MovePlayer(direction);
+
+	if (!bulletIsSpawned && !bulletIsMoving)
 	{
-		camera.x = 0;
-	}
-	if (camera.y < 0)
-	{
-		camera.y = 0;
-	}
-	if (camera.x > MAX_WIDTH - camera.w)
-	{
-		camera.x = MAX_WIDTH - camera.w;
-	}
-	if (camera.y > MAX_HEIGHT - camera.h)
-	{
-		camera.y = MAX_HEIGHT - camera.h;
-	}
-
-	SDL_SetRenderDrawColor(Engine::GetInstance()->GetRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(Engine::GetInstance()->GetRenderer());
-
-	manager->Draw();
-
-	if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_SPACE))
-	{
-		//Bullet *actualBullet;
-		//actualBullet = bulletPool->NewInstance();
-	}
-
-
-	/*if (Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A))
-	{
-		Tile *tileToCheck = manager.CheckForTile(GetNextPos(DIRECTION[5]));
-
-		if (tileToCheck != nullptr)
+		if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_SPACE))
 		{
-			if (Collides(tileToCheck))
-			{
-				isMovingLeft = true;
-				currentX -= SPEED * dt;
-				SetPosition(currentX, currentY);
-			}
-			else
-			{
-				isMovingLeft = false;
-			}
+			actualBullet = bulletPool->NewInstance();
+			actualBullet->Init(currentX, currentY, direction);
+			bulletIsSpawned = true;
+		}
+	}
+
+	if (bulletIsSpawned)
+	{
+		Tile *bulletTileToCheck = manager->CheckForTile(actualBullet->GetNextPos());
+
+		if (bulletTileToCheck != nullptr)
+		{
+			bulletCanMove = actualBullet->Collides(bulletTileToCheck);
 		}
 		else
 		{
-			isMovingLeft = true;
-			currentX -= SPEED * dt;
-			SetPosition(currentX, currentY);
+			bulletCanMove = true;
 		}
-	}
-	else if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_A))
-	{
-		isMovingLeft = false;
-	}
 
-	if (Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S))
-	{
-		if (!GetIsPlaying())
+		if (bulletCanMove)
 		{
-			changeState(WALK_DOWN);
-			this->Play();
+			actualBullet->MoveBullet();
 		}
+		else
+		{
+			actualBullet->SetAlpha(0);
+			bulletPool->FreeInstance(actualBullet);
+			bulletIsSpawned = false;
+			bulletIsMoving = false;
+		}
+	}
 		
-		Tile *tileToCheck = manager.CheckForTile(GetNextPos(DIRECTION[3]));
-
-		if (tileToCheck != nullptr)
-		{
-			if (Collides(tileToCheck))
-			{
-				isMovingDown = true;
-				currentY += SPEED * dt;
-				SetPosition(currentX, currentY);
-			}
-			else
-			{
-				isMovingDown = false;
-			}
-		}
-		else
-		{
-			isMovingDown = true;
-			currentY += SPEED * dt;
-			SetPosition(currentX, currentY);
-		}
-	}
-
-	else if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_S))
-	{
-		isMovingDown = false;
-		if (GetIsPlaying())
-		{
-			changeState(IDLE);
-			this->Stop();
-		}
-	}
-
-	if (Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D))
-	{
-		Tile *tileToCheck = manager.CheckForTile(GetNextPos(DIRECTION[1]));
-
-		if (tileToCheck != nullptr)
-		{
-			if (Collides(tileToCheck))
-			{
-				isMovingRight = true;
-				currentX += SPEED * dt;
-				SetPosition(currentX, currentY);
-			}
-			else
-			{
-				isMovingRight = false;
-			}
-		}
-		else
-		{
-			isMovingRight = true;
-			currentX += SPEED * dt;
-			SetPosition(currentX, currentY);
-		}
-	}
-	else if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_D))
-	{
-		isMovingRight = false;
-	}*/
-}	
+	
+}

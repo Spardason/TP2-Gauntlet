@@ -5,6 +5,8 @@ Map::Map()
 	, currentX(0)
 	, currentY(0)
 	, SPEED(50)
+	, MAX_WIDTH(528)
+	, MAX_HEIGHT(464)
 {
 
 }
@@ -15,13 +17,14 @@ Map::~Map()
 }
 
 // Function to move the map
-void Map::MoveMap(Vector2D& direction)
+void Map::MoveMap(Vector2D &direction)
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
 	// Opération time Base
 	currentX -= SPEED * direction.x * dt;
 	currentY -= SPEED * direction.y * dt;
+
 	SetPosition(currentX, currentY);
 }
 

@@ -27,7 +27,7 @@ Enemy::~Enemy()
 }
 
 // FFunction to find and seek the player
-void Enemy::GoTo(point<int> toGo)
+void Enemy::GoTo(point<float> toGo)
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();;
 	if (currentX != toGo.x && currentY != toGo.y)
@@ -68,6 +68,6 @@ void Enemy::GoTo(point<int> toGo)
 
 void Enemy::Update()
 {
-	point<int> toGo = player->GetPostion();
+	point<float> toGo = player->GetPostion();
 	GoTo(toGo);
 }

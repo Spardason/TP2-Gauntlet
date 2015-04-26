@@ -12,7 +12,10 @@ enum tileType{
 	TILE_TYPE_SPAWN,
 	TILE_TYPE_POT,
 	TILE_TYPE_FOOD,
-	TILE_TYPE_KEY
+	TILE_TYPE_KEY,
+	TILE_TYPE_SPAWN1,
+	TILE_TYPE_SPAWN2,
+	TILE_TYPE_SPAWN3
 };
 
 // The size of the map
@@ -24,22 +27,17 @@ class TileManager
 public:
 	TileManager();
 	// CTOR with parameter, in this case, the map created with int
-	TileManager(int map[MAP_HEIGHT][MAP_WIDTH]);
+	TileManager(int map[MAP_HEIGHT][MAP_WIDTH], Map *mapPng);
 	~TileManager();
-
-	Map *GetMap() {return mapPng;}
 	
 	// Function that check the postion in case is a tile or not, and if yes, return the tile
-	Tile *CheckForTile(const point<int> posToCheck);
+	Tile *CheckForTile(const point<float> posToCheck);
 
 	// Function that geberate the tiles for the map
 	void CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH]);
 
 	// Function to move all the tiles in the map vector
 	void MoveTiles(Vector2D& direction);
-
-	void Update();
-	void Draw();
 
 private:
 	// Map background

@@ -20,7 +20,7 @@ Tile::Tile(Texture::ID id, int tileWidth, int tileHeight, int tileId, point<int>
 	, tileId(tileId)
 	, currentX(pos.x)
 	, currentY(pos.y)
-	, SPEED(25)
+	, SPEED(50)
 {
 	SetPosition(pos.x, pos.y);
 }
@@ -33,7 +33,7 @@ Tile::Tile(int tileWidth, int tileHeight, int tileId, point<int> pos)
 	, tileId(tileId)
 	, currentX(pos.x)
 	, currentY(pos.y)
-	, SPEED(25)
+	, SPEED(50)
 {
 	SetPosition(pos.x, pos.y);
 }

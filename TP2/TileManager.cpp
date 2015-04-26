@@ -7,11 +7,9 @@ TileManager::TileManager()
 }
 
 //Special ctor
-TileManager::TileManager(int _map[MAP_HEIGHT][MAP_WIDTH])
-	: mapPng(nullptr)
+TileManager::TileManager(int _map[MAP_HEIGHT][MAP_WIDTH], Map *mapPng)
+	: mapPng(mapPng)
 {
-	mapPng = new Map();
-
 	for (int i = 0; i < MAP_WIDTH; i++)
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
@@ -23,16 +21,6 @@ TileManager::TileManager(int _map[MAP_HEIGHT][MAP_WIDTH])
 }
 
 TileManager::~TileManager()
-{
-
-}
-
-void TileManager::Update()
-{
-
-}
-
-void TileManager::Draw()
 {
 
 }
@@ -100,6 +88,27 @@ void TileManager::CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH])
 			}
 				break;
 
+			case 9:
+			{
+				Tile *spawn1Tile = new Tile(Texture::ID::Spawn1, 16, 16, TILE_TYPE_SPAWN1, point<int>(i * 16, j * 16));
+				map.push_back(spawn1Tile);
+			}
+				break;
+
+			case 10:
+			{
+				Tile *spawn2Tile = new Tile(Texture::ID::Spawn2, 16, 16, TILE_TYPE_SPAWN2, point<int>(i * 16, j * 16));
+				map.push_back(spawn2Tile);
+			}
+				break;
+
+			case 11:
+			{
+				Tile *spawn3Tile = new Tile(Texture::ID::Spawn3, 16, 16, TILE_TYPE_SPAWN3, point<int>(i * 16, j * 16));
+				map.push_back(spawn3Tile);
+			}
+				break;
+
 			default:
 				break;
 			}
@@ -110,16 +119,15 @@ void TileManager::CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH])
 // Function to move all the tiles
 void TileManager::MoveTiles(Vector2D& direction)
 {
-	
+	mapPng->MoveMap(direction);
 	for (it = map.begin(); it != map.end(); ++it)
 	{
 		(*it)->MoveTile(direction);
 	}
-	mapPng->MoveMap(direction);
 }
 
 // Function that look for tiles  at the next position that the player will go and return it if there's one
-Tile* TileManager::CheckForTile(const point<int> posToCheck)
+Tile* TileManager::CheckForTile(const point<float> posToCheck)
 {
 	Tile *tileToReturn = nullptr;
 	

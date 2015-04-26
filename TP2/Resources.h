@@ -17,7 +17,10 @@ namespace Texture
 		Key,
 		Potion,
 		DoorHorizontal,
-		Bullet
+		Bullet,
+		Spawn1,
+		Spawn2,
+		Spawn3
 	};
 }
 

@@ -13,7 +13,7 @@ public:
 	void Update();
 
 	// Function that seek the player and go to him if possible
-	void GoTo(point<int> toGo);
+	void GoTo(point<float> toGo);
 
 private:
 	// Reference to player, to go to him
