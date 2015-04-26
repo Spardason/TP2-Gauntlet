@@ -179,7 +179,6 @@ bool Player::Collides(Tile *tileToCheck)
 	default:
 		break;
 	}
-
 	return canMove;
 }
 

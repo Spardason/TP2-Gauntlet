@@ -83,15 +83,26 @@ void Game::Init()
 
 
 	// Create all game objects
+  
 	theme = new MusicTheme();
 	mapSprite = new Map();
 	manager = new TileManager(tileMap, mapSprite);
 	player = new Player(manager);
 	enemyGhost = new Enemy(player, manager);
 	score = new Score(player);
+	splashScreen = new SplashScreen();
 }
 
 void Game::Start()
 {
 
+}
+
+void Game::Update()
+{
+	if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_P))
+	{
+		splashScreen->Hide();
+	}
+	
 }

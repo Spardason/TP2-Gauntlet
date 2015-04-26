@@ -2,9 +2,10 @@
 
 
 SplashScreen::SplashScreen()
-	:Text(Text("Press P tp Start", Font::ID::Dialog))
+	:Text("Press P To Start", Font::ID::Dialog)
 {
-	
+	SetColor(Color::RED);
+	SetPosition(40, 100);
 }
 
 SplashScreen::~SplashScreen()
@@ -12,7 +13,7 @@ SplashScreen::~SplashScreen()
 
 }
 
-void SplashScreen::Start()
+void SplashScreen::Hide()
 {
-	SetPosition(100, 100);
+	isVisible = false;
 }
