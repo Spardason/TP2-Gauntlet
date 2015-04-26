@@ -10,7 +10,5 @@ class MusicTheme :
 public:
 	MusicTheme();
 	~MusicTheme();
-
-	void Start();
 };
 

@@ -3,8 +3,8 @@
 Enemy::Enemy()
 	: Sprite(Texture::ID::EnnemyGhost)
 	, hp(0)
-	, currentX(400)
-	, currentY(400)
+	, currentX(0)
+	, currentY(0)
 	, player(nullptr)
 	, SPEED(50)
 	, manager(nullptr)
@@ -13,7 +13,6 @@ Enemy::Enemy()
 
 }
 
-// Special ctor
 Enemy::Enemy(Player *player, TileManager *m)
 	: Sprite(Texture::ID::EnnemyGhost)
 	, hp(0)
@@ -24,8 +23,9 @@ Enemy::Enemy(Player *player, TileManager *m)
 	, manager(m)
 	, direction(Vector2D(0, 0))
 {
-	SetPosition(currentX, currentY);
+
 }
+
 
 Enemy::~Enemy()
 {

@@ -21,9 +21,6 @@ private:
 	// Map position
 	float currentX, currentY;
 
-	const int MAX_WIDTH;
-	const int MAX_HEIGHT;
-
 	// Map speed
 	const int SPEED;
 };

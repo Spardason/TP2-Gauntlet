@@ -13,6 +13,8 @@ public:
 	void Update();
 	void Start();
 
+	void Init(float currentX, float currentY, Player *player);
+
 	void MoveEnemy(point<float> toGo);
 	// Function that seek the player and go to him if possible
 	void GoTo(point<float> toGo);

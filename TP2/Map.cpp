@@ -5,8 +5,6 @@ Map::Map()
 	, currentX(0)
 	, currentY(0)
 	, SPEED(50)
-	, MAX_WIDTH(528)
-	, MAX_HEIGHT(464)
 {
 
 }

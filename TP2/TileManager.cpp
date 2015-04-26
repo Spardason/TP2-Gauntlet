@@ -1,7 +1,7 @@
 #include "TileManager.h"
 
 TileManager::TileManager()
-	:mapPng(nullptr)
+	: mapPng(nullptr)
 {
 
 }
@@ -32,7 +32,6 @@ void TileManager::CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH])
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
-
 			// Switch on the number from the int map to see wich tile to create
 			switch (tiledMap[j][i])
 			{	
@@ -142,7 +141,6 @@ Tile* TileManager::CheckForTile(const point<float> posToCheck)
 
 		if (tileRect->Contains(posToCheck.x, posToCheck.y))
 		{
-			std::cout << "Ouch!!!" << std::endl;
 			tileToReturn = (*it);
 		}
 	}
