@@ -116,7 +116,7 @@ void TileManager::CreateMap(int tiledMap[MAP_HEIGHT][MAP_WIDTH])
 }
 
 // Function to move all the tiles
-void TileManager::MoveTiles(Vector2D& direction)
+void TileManager::MoveTiles(Vector2D &direction)
 {
 	mapPng->MoveMap(direction);
 	for (it = map.begin(); it != map.end(); ++it)

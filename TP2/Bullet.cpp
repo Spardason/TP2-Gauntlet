@@ -21,16 +21,6 @@ void Bullet::OnClear()
 	isVisible = false;
 }
 
-void Bullet::Update()
-{
-
-}
-
-void Bullet::Start()
-{
-
-}
-
 void Bullet::Init(float currentX, float currentY, Vector2D &direction)
 {
 	if (direction.x == 0 && direction.y == 0)
@@ -42,10 +32,10 @@ void Bullet::Init(float currentX, float currentY, Vector2D &direction)
 	this->direction = direction;
 	this->currentX = currentX;
 	this->currentY = currentY;
-	SetPosition(this->currentX, this->currentY);
+	SetPosition((int)this->currentX, (int)this->currentY);
 }
 
-bool Bullet::Collides(Tile *tileToCheck)
+bool Bullet::Collides(const Tile *tileToCheck)
 {
 	std::cout << "Collides()" << std::endl;
 	bool canMove = true;

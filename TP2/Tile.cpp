@@ -44,7 +44,7 @@ Tile::~Tile()
 }
 
 // Function to move the tile
-void Tile::MoveTile(Vector2D& direction)
+void Tile::MoveTile(const Vector2D &direction)
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
@@ -52,14 +52,4 @@ void Tile::MoveTile(Vector2D& direction)
 	currentX -= SPEED * direction.x * dt;
 	currentY -= SPEED * direction.y * dt;
 	SetPosition(currentX, currentY);
-}
-
-void Tile::Update()
-{
-	
-}
-
-void Tile::Start()
-{
-
 }

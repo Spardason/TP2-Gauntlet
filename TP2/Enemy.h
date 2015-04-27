@@ -2,36 +2,39 @@
 
 #include "Player.h"
 
+/*
+	The class for the main enemy in the game
+*/
 class Enemy :
 	public Sprite
 {
 public:
 	Enemy();
+	// Special CTOR with parameters
 	Enemy(Player *player, TileManager *m);
 	~Enemy();
 
-	void Update();
-	void Start();
+	void Update();;
 
-	void Init(float currentX, float currentY, Player *player);
+	// Function to move the enemy
+	void MoveEnemy(const point<float> toGo);
 
-	void MoveEnemy(point<float> toGo);
 	// Function that seek the player and go to him if possible
-	void GoTo(point<float> toGo);
+	void GoTo(const point<float> toGo);
 
-	point<float> GetNextPos(Vector2D &direction);
+	// Function that get the next position of the bullet
+	point<float> GetNextPos(const Vector2D &direction);
+
+	// Function that check if the enemy collides and with what
+	bool Collides(const Tile *tileToCheck);
 
 private:
+	// Game references
 	TileManager *manager;
-	// Reference to player, to go to him
 	Player *player;
 
-	bool Collides(Tile *tileToCheck);
-
+	// Direction
 	Vector2D direction;
-
-	// HP of the monsters
-	int hp;
 
 	//Enemies position
 	float currentX, currentY;

@@ -27,9 +27,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Chest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,10 +42,13 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MusicTheme.cpp">
+    <ClCompile Include="SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SplashScreen.cpp">
+    <ClCompile Include="Theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileManager.h">
@@ -83,10 +80,13 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MusicTheme.h">
+    <ClInclude Include="SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SplashScreen.h">
+    <ClInclude Include="Theme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,15 @@
 #include "Pool.h"
 #include "Bullet.h"
 
+/*
+	This is the player class, it handle everyting, movement, input, firing bullet, etc.
+	I know there are some mistakes here, but since I started my project with no god class, or main parent
+	I was kind of screw so I had to do something to make it work and here it is.....
+
+	P.S: for the Next project I will start more on solid ground then this one.... I DO NOT LIKE THIS CODE !!!!
+*/
+
+
 class Player :
 	public Animation
 {
@@ -17,14 +26,16 @@ public:
 	Player(TileManager *m);
 	~Player();
 
-	void Start();
 	void Update();
 
 	// Position getter 
-	point<float> GetPostion() { point<float> p; p.x = currentX; p.y = currentY; return p; }
+	point<float> GetPostion() const { point<float> p; p.x = currentX; p.y = currentY; return p; }
+
+	bool GetIsDead() const	  { return isDead; }
+	void SetIsDead(bool dead) { isDead = dead; }
 
 	// Score getter
-	int GetScore() { return score; }
+	int GetScore() const { return score; }
 
 	// Score setter
 	void SetScore(int s) { score = s; }
@@ -32,14 +43,22 @@ public:
 	// Function that move the background
 	void MoveMap(Vector2D &direction);
 
+	// Function that virtualy move the player around
 	void MovePlayer(Vector2D &direction);
 
-	void UpdateAnim(Vector2D &direction);
+	// Function to update the animation
+	void UpdateAnim(const Vector2D &direction);
 
+	// Check if the player collides with another object
+	bool Collides(const Tile *const tileToCheck);
+
+	// Get the next postion the player will go to see if it will collide
+	point<float> GetNextPos(const Vector2D& direction);
 private:
 	// Pool of bullet....only one yeah...but I had to, I don't want to recreate a bullet each time I shoot
 	Pool<Bullet> *bulletPool;
 	Bullet *actualBullet;
+	
 	// player speed
 	const int SPEED;
 
@@ -48,6 +67,7 @@ private:
 	bool bulletIsSpawned;
 	bool bulletIsMoving;
 
+	bool isDead;
 	bool canPlay;
 
 	// Player postion
@@ -56,7 +76,9 @@ private:
 	// Player score
 	int score;
 
-	// Player keys
+	// Player keys, not in use but I will keep it there for futur iteration of this project
+	// it was supposed to contains the number of keys the player have to open doors....
+	// had no time to implement......
 	int keys;
 
 	// The tile manager
@@ -69,11 +91,6 @@ private:
 	//State Setter
 	void changeState(state newState);
 
-	// Check if the player collides with another object
-	bool Collides(Tile *tileToCheck);
-
-	// Get the next postion the player will go to see if it will collide
-	point<float> GetNextPos(Vector2D& direction);
 
 	// Set Animation constant
 	const int WALK_NB_FRAME() { return 2; }

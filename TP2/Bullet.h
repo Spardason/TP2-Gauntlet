@@ -5,7 +5,9 @@
 #include "Resources.h"
 #include "Vector.h"
 #include "TileManager.h"
-
+/*
+	This is the class for the player projectile
+*/
 class Bullet :
 	public Sprite
 {
@@ -13,22 +15,26 @@ public:
 	Bullet();
 	~Bullet();
 
-	void Update();
-	void Start();
-
+	// Init function for when created from the pool
 	void Init(float currentX, float currentY, Vector2D &direction);
+
+	// Function to remove the bullet from screen before free the pool instance
 	void OnClear();
+
+	// Function to move the bullet
 	void MoveBullet();
 
 	// Function to get the next position 
 	point<float> Bullet::GetNextPos();
 
-	bool Collides(Tile *tileToCheck);
+	// Function that check if the bullet collides with a wall
+	bool Collides(const Tile *tileToCheck);
 
 private:
 	// Speed of the bullet
 	const int SPEED;
 
+	// Direction of the bullet
 	Vector2D direction;
 
 	// Position of the bullet

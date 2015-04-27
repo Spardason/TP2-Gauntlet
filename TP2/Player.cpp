@@ -6,7 +6,7 @@ Player::Player()
 	, currentX(100)
 	, currentY(100)
 	, currentState(IDLE)
-	, score(900)
+	, score(10)
 	, keys(0)
 	, manager(nullptr)
 	, SPEED(50)
@@ -16,9 +16,12 @@ Player::Player()
 	, bulletIsSpawned(false)
 	, bulletIsMoving(false)
 	, canPlay(false)
+	, isDead(false)
 	
 {
+	// Set the bullet pool to 1
 	bulletPool = new Pool<Bullet>(1);
+
 	//Start the animation on creation
 	this->Stop();
 
@@ -33,7 +36,7 @@ Player::Player(TileManager* m)
 	, currentX(100)
 	, currentY(100)
 	, currentState(IDLE)
-	, score(900)
+	, score(10)
 	, keys(0)
 	, manager(m)
 	, SPEED(50)
@@ -43,8 +46,11 @@ Player::Player(TileManager* m)
 	, bulletIsSpawned(false)
 	, bulletIsMoving(false)
 	, canPlay(false)
+	, isDead(false)
 {
+	// Set the bullet Pool to 1
 	bulletPool = new Pool<Bullet>(1);
+
 	//Start the animation on creation
 	this->Stop();
 
@@ -58,13 +64,8 @@ Player::~Player()
 
 }
 
-void Player::Start()
-{
-
-}
-
 // Function to get the next position 
-point<float> Player::GetNextPos(Vector2D &direction)
+point<float> Player::GetNextPos(const Vector2D &direction)
 {
 	point<float> p;
 
@@ -139,7 +140,7 @@ void Player::changeState(state newState)
 }
 
 // Check wich tile the player is colliding with and handle it
-bool Player::Collides(Tile *tileToCheck)
+bool Player::Collides(const Tile *const tileToCheck)
 {
 	bool canMove = true;
 
@@ -190,6 +191,7 @@ void Player::MoveMap(Vector2D &direction)
 	manager->MoveTiles(direction);
 }
 
+// Function to "Move" the player on the map
 void Player::MovePlayer(Vector2D &direction)
 {
 	bool canMove = false;
@@ -219,7 +221,8 @@ void Player::MovePlayer(Vector2D &direction)
 	}
 }
 
-void Player::UpdateAnim(Vector2D &direction)
+// Function to update the animation based onthe facing direction
+void Player::UpdateAnim(const Vector2D &direction)
 {
 	if (direction.x == 0 && direction.y == 0)
 	{
@@ -271,16 +274,28 @@ void Player::UpdateAnim(Vector2D &direction)
 void Player::Update()
 {
 	Animation::Update();
-	if (!canPlay)
+
+	if (score <= 0)
 	{
-		score = 900;
+		isDead = true;
+	}
+
+	if (!canPlay || isDead)
+	{
+		score = 10;
 		if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_P))
 		{
 			canPlay = true;
 		}
+
+		if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_R))
+		{
+			isDead = false;
+		}
+
 	}
 
-	if (canPlay)
+	if (canPlay && !isDead)
 	{
 		Vector2D direction = Vector2D(
 			Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,

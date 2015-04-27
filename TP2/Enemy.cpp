@@ -2,20 +2,18 @@
 
 Enemy::Enemy()
 	: Sprite(Texture::ID::EnnemyGhost)
-	, hp(0)
-	, currentX(0)
-	, currentY(0)
+	, currentX(400)
+	, currentY(400)
 	, player(nullptr)
 	, SPEED(50)
 	, manager(nullptr)
 	, direction(Vector2D(0, 0))
 {
-
+	SetPosition((int)currentX, (int)currentY);
 }
 
 Enemy::Enemy(Player *player, TileManager *m)
 	: Sprite(Texture::ID::EnnemyGhost)
-	, hp(0)
 	, currentX(400)
 	, currentY(400)
 	, player(player)
@@ -23,7 +21,7 @@ Enemy::Enemy(Player *player, TileManager *m)
 	, manager(m)
 	, direction(Vector2D(0, 0))
 {
-
+	SetPosition((int)currentX, (int)currentY);
 }
 
 
@@ -32,7 +30,7 @@ Enemy::~Enemy()
 
 }
 
-point<float> Enemy::GetNextPos(Vector2D &direction)
+point<float> Enemy::GetNextPos(const Vector2D &direction)
 {
 	point<float> p;
 
@@ -42,7 +40,7 @@ point<float> Enemy::GetNextPos(Vector2D &direction)
 	return p;
 }
 
-bool Enemy::Collides(Tile *tileToCheck)
+bool Enemy::Collides(const Tile *tileToCheck)
 {
 	bool canMove = true;
 
@@ -80,7 +78,7 @@ bool Enemy::Collides(Tile *tileToCheck)
 	return canMove;
 }
 
-void Enemy::MoveEnemy(point<float> toGo)
+void Enemy::MoveEnemy(const point<float> toGo)
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
@@ -93,14 +91,14 @@ void Enemy::MoveEnemy(point<float> toGo)
 				direction = { 1, 1 };
 				currentX += SPEED * dt;
 				currentY += SPEED * dt;
-				SetPosition(currentX, currentY);
+				SetPosition((int)currentX, (int)currentY);
 			}
 			else
 			{
 				direction = { 1, -1 };
 				currentX += SPEED * dt;
 				currentY -= SPEED * dt;
-				SetPosition(currentX, currentY);
+				SetPosition((int)currentX, (int)currentY);
 			}
 		}
 		else
@@ -110,21 +108,21 @@ void Enemy::MoveEnemy(point<float> toGo)
 				direction = { -1, 1 };
 				currentX -= SPEED * dt;
 				currentY += SPEED * dt;
-				SetPosition(currentX, currentY);
+				SetPosition((int)currentX, (int)currentY);
 			}
 			else
 			{
 				direction = { -1, -1 };
 				currentX -= SPEED * dt;
 				currentY -= SPEED * dt;
-				SetPosition(currentX, currentY);
+				SetPosition((int)currentX, (int)currentY);
 			}
 		}
 	}
 }
 
 // Function to find and seek the player
-void Enemy::GoTo(point<float> toGo)
+void Enemy::GoTo(const point<float> toGo)
 {
 	Tile *tileToCheck = manager->CheckForTile(GetNextPos(direction));
 
@@ -149,9 +147,4 @@ void Enemy::Update()
 {
 	point<float> toGo = player->GetPostion();
 	GoTo(toGo);
-}
-
-void Enemy::Start()
-{
-
 }

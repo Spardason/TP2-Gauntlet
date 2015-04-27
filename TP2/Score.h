@@ -3,6 +3,10 @@
 #include "Text.h"
 #include "Player.h"
 
+/*
+	This is the class for the score, the display of it
+*/
+
 class Score :
 	public Text
 {

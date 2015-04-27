@@ -3,6 +3,11 @@
 #include "Tile.h" 
 #include "Map.h"
 
+/*
+	This class mamage all the tiles, well in this case, more like contains since i had not the time to implement everything I need it 
+	is only functionnal, I intend to imporve it afterward.
+*/
+
 // ID types tile enum
 enum tileType{
 	TILE_TYPE_NONE = 0,

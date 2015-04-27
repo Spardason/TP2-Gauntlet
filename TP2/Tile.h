@@ -5,6 +5,10 @@
 #include "Rectangle.h"
 #include "Resources.h"
 
+/*
+	This is the class for all tiles in the game, visibl or not.
+*/
+
 class Tile: 
 	public Sprite
 {
@@ -16,18 +20,17 @@ public:
 	Tile(int tileWidth, int tileHeight, int tileId, point<int> pos);
 	~Tile();
 
-	void Update();
-	void Start();
-
 	// Tile size getters
 	int GetWidth() const { return tileWidth; }
 	int GetHeight() const { return tileHeight; }
 
-	// Function to move the tile according to the player
-	void MoveTile(Vector2D& direction);
-
 	// ID getter
 	int GetId() const { return tileId; }
+
+	// Function to move the tile according to the player
+	void MoveTile(const Vector2D& direction);
+
+
 
 private:
 	// Tile speed
