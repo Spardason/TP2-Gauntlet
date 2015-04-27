@@ -48,6 +48,8 @@ private:
 	bool bulletIsSpawned;
 	bool bulletIsMoving;
 
+	bool canPlay;
+
 	// Player postion
 	float currentX, currentY;
 

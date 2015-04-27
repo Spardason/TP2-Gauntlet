@@ -15,6 +15,7 @@ Player::Player()
 	, bulletCanMove(false)
 	, bulletIsSpawned(false)
 	, bulletIsMoving(false)
+	, canPlay(false)
 	
 {
 	bulletPool = new Pool<Bullet>(1);
@@ -41,6 +42,7 @@ Player::Player(TileManager* m)
 	, bulletCanMove(false)
 	, bulletIsSpawned(false)
 	, bulletIsMoving(false)
+	, canPlay(false)
 {
 	bulletPool = new Pool<Bullet>(1);
 	//Start the animation on creation
@@ -269,56 +271,66 @@ void Player::UpdateAnim(Vector2D &direction)
 void Player::Update()
 {
 	Animation::Update();
-
-	Vector2D direction = Vector2D(
-		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,
-		Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S) ? 1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_W) ? -1 : 0)
-		;
-	
-	UpdateAnim(direction);
-
-	if (currentState == IDLE)
+	if (!canPlay)
 	{
-		this->Play();
-	}
-
-	MovePlayer(direction);
-
-	if (!bulletIsSpawned && !bulletIsMoving)
-	{
-		if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_SPACE))
+		score = 900;
+		if (Engine::GetInstance()->GetInput()->IsKeyReleased(SDL_SCANCODE_P))
 		{
-			actualBullet = bulletPool->NewInstance();
-			actualBullet->Init(currentX, currentY, direction);
-			bulletIsSpawned = true;
+			canPlay = true;
 		}
 	}
 
-	if (bulletIsSpawned)
+	if (canPlay)
 	{
-		Tile *bulletTileToCheck = manager->CheckForTile(actualBullet->GetNextPos());
+		Vector2D direction = Vector2D(
+			Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_A) ? -1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_D) ? 1 : 0,
+			Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_S) ? 1 : 0 + Engine::GetInstance()->GetInput()->IsKeyHeld(SDL_SCANCODE_W) ? -1 : 0)
+			;
 
-		if (bulletTileToCheck != nullptr)
+		UpdateAnim(direction);
+
+		if (currentState == IDLE)
 		{
-			bulletCanMove = actualBullet->Collides(bulletTileToCheck);
-		}
-		else
-		{
-			bulletCanMove = true;
+			this->Play();
 		}
 
-		if (bulletCanMove)
+		MovePlayer(direction);
+
+		if (!bulletIsSpawned && !bulletIsMoving)
 		{
-			actualBullet->MoveBullet();
+			if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_SPACE))
+			{
+				actualBullet = bulletPool->NewInstance();
+				actualBullet->Init(currentX, currentY, direction);
+				bulletIsSpawned = true;
+			}
 		}
-		else
+
+		if (bulletIsSpawned)
 		{
-			actualBullet->OnClear();
-			bulletPool->FreeInstance(actualBullet);
-			bulletIsSpawned = false;
-			bulletIsMoving = false;
+			Tile *bulletTileToCheck = manager->CheckForTile(actualBullet->GetNextPos());
+
+			if (bulletTileToCheck != nullptr)
+			{
+				bulletCanMove = actualBullet->Collides(bulletTileToCheck);
+			}
+			else
+			{
+				bulletCanMove = true;
+			}
+
+			if (bulletCanMove)
+			{
+				actualBullet->MoveBullet();
+			}
+			else
+			{
+				actualBullet->OnClear();
+				bulletPool->FreeInstance(actualBullet);
+				bulletIsSpawned = false;
+				bulletIsMoving = false;
+			}
 		}
 	}
-		
 	
 }

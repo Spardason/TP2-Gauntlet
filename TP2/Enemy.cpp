@@ -39,16 +39,12 @@ point<float> Enemy::GetNextPos(Vector2D &direction)
 	p.x = currentX + direction.x;
 	p.y = currentY + direction.y;
 
-	//std::cout << "Next Position: " << p.x << ", " << p.y << std::endl;
-
 	return p;
 }
 
 bool Enemy::Collides(Tile *tileToCheck)
 {
 	bool canMove = true;
-
-	//std::cout << "TileId: "<< tileToCheck->GetId() << std::endl;
 
 	switch (tileToCheck->GetId())
 	{
@@ -60,27 +56,21 @@ bool Enemy::Collides(Tile *tileToCheck)
 		break;
 
 	case TILE_TYPE_DOOR:
-		//std::cout << "DOOR" << std::endl;
 		break;
 
 	case TILE_TYPE_CHEST:
-		//std::cout << "Chest" << std::endl;
 		break;
 
 	case TILE_TYPE_SPAWN:
-		//std::cout << "Spawn" << std::endl;
 		break;
 
 	case TILE_TYPE_POT:
-		//std::cout << "Potion" << std::endl;
 		break;
 
 	case TILE_TYPE_FOOD:
-		//std::cout << "Food" << std::endl;
 		break;
 
 	case TILE_TYPE_KEY:
-		//std::cout << "Key" << std::endl;
 		break;
 
 	default:

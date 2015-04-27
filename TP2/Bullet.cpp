@@ -50,8 +50,6 @@ bool Bullet::Collides(Tile *tileToCheck)
 	std::cout << "Collides()" << std::endl;
 	bool canMove = true;
 
-	//std::cout << "TileId: "<< tileToCheck->GetId() << std::endl;
-
 	switch (tileToCheck->GetId())
 	{
 	case TILE_TYPE_NONE:
@@ -62,27 +60,21 @@ bool Bullet::Collides(Tile *tileToCheck)
 		break;
 
 	case TILE_TYPE_DOOR:
-		//std::cout << "DOOR" << std::endl;
 		break;
 
 	case TILE_TYPE_CHEST:
-		//std::cout << "Chest" << std::endl;
 		break;
 
 	case TILE_TYPE_SPAWN:
-		//std::cout << "Spawn" << std::endl;
 		break;
 
 	case TILE_TYPE_POT:
-		//std::cout << "Potion" << std::endl;
 		break;
 
 	case TILE_TYPE_FOOD:
-		//std::cout << "Food" << std::endl;
 		break;
 
 	case TILE_TYPE_KEY:
-		//std::cout << "Key" << std::endl;
 		break;
 
 	default:
@@ -115,5 +107,5 @@ void Bullet::MoveBullet()
 	currentY += SPEED * direction.y * dt;
 	//std::cout << "currentX: " << currentX << "'" << "currentY: " << currentY << std::endl;
 
-	SetPosition(currentX, currentY);
+	this->SetPosition(currentX, currentY);
 }
